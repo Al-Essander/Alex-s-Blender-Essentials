@@ -1,6 +1,7 @@
 # Half Cube with Mirror Addon for Blender
 
 A Blender addon that creates perfectly symmetric half cubes with mirror modifiers for efficient modeling.
+Best thing for modellers who need to use such kinds of cubes.
 
 ## Features
 
@@ -31,4 +32,5 @@ A Blender addon that creates perfectly symmetric half cubes with mirror modifier
 ## Variants
 
 - **Standard**: Polygons on left/front/bottom, mirror on right/back/top
+
 - **Inverted**: Polygons on right/back/top, mirror on left/front/bottom
