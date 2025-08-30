@@ -16,15 +16,15 @@ import bmesh
 from mathutils import Vector
 
 def create_half_cube(axis='X', inverted=False):
-    # Создаем mesh и объект
+    
     mesh = bpy.data.meshes.new("HalfCube")
     obj = bpy.data.objects.new("HalfCube", mesh)
     
-    # Создаем куб через bmesh
+    
     bm = bmesh.new()
     bmesh.ops.create_cube(bm, size=2.0)
     
-    # Находим и удаляем грани на нужной стороне
+   
     faces_to_delete = []
     threshold = 1e-6
 
@@ -41,16 +41,16 @@ def create_half_cube(axis='X', inverted=False):
             if (not inverted and center.z > threshold) or (inverted and center.z < -threshold):
                 faces_to_delete.append(face)
 
-    # Собираем вершины, которые нужно сместить к плоскости симметрии
+    
     verts_to_move = set()
     for face in faces_to_delete:
         for vert in face.verts:
             verts_to_move.add(vert)
     
-    # Удаляем грани
+   
     bmesh.ops.delete(bm, geom=faces_to_delete, context='FACES')
     
-    # Смещаем вершины к плоскости симметрии
+   
     for vert in verts_to_move:
         if axis == 'X':
             vert.co.x = 0.0
@@ -59,29 +59,29 @@ def create_half_cube(axis='X', inverted=False):
         elif axis == 'Z':
             vert.co.z = 0.0
 
-    # Применяем изменения к mesh
+  
     bm.to_mesh(mesh)
     bm.free()
 
-    # Добавляем объект в сцену
+
     collection = bpy.context.collection
     collection.objects.link(obj)
     
-    # Активируем объект
+
     bpy.context.view_layer.objects.active = obj
     obj.select_set(True)
     
-    # Переименовываем объект
+ 
     direction = "Neg" if inverted else "Pos"
     obj.name = f"HalfCube_{axis}_{direction}"
 
-    # Добавляем модификатор Mirror
+    
     mirror_mod = obj.modifiers.new(name="Mirror", type='MIRROR')
     mirror_mod.use_clip = True
     mirror_mod.use_mirror_merge = True
     mirror_mod.merge_threshold = 0.001
 
-    # Устанавливаем ось отражения
+   
     if axis == 'X':
         mirror_mod.use_axis[0] = True
         if inverted:
@@ -97,7 +97,10 @@ def create_half_cube(axis='X', inverted=False):
 
     return obj
 
-# --- Операторы ---
+
+
+
+
 class MESH_OT_half_cube_x(bpy.types.Operator):
     bl_idname = "mesh.add_half_cube_x"
     bl_label = "Half Cube Mirror X"
@@ -158,7 +161,7 @@ class MESH_OT_half_cube_z_inverted(bpy.types.Operator):
         create_half_cube('Z', True)
         return {'FINISHED'}
 
-# --- Меню ---
+
 class VIEW3D_MT_add_half_cubes_menu(bpy.types.Menu):
     bl_idname = "VIEW3D_MT_add_half_cubes_menu"
     bl_label = "Half Cubes"
@@ -179,7 +182,10 @@ class VIEW3D_MT_add_half_cubes_menu(bpy.types.Menu):
         layout.operator("mesh.add_half_cube_y_inverted", text="Mirror Y (Back)", icon='MESH_CUBE')
         layout.operator("mesh.add_half_cube_z_inverted", text="Mirror Z (Top)", icon='MESH_CUBE')
 
-# --- Панель инструментов ---
+
+
+
+
 class VIEW3D_PT_half_cubes_tools(bpy.types.Panel):
     bl_label = "Half Cubes"
     bl_idname = "VIEW3D_PT_half_cubes_tools"
@@ -204,7 +210,7 @@ class VIEW3D_PT_half_cubes_tools(bpy.types.Panel):
         box.operator("mesh.add_half_cube_y_inverted", text="Y Mirror (Back)")
         box.operator("mesh.add_half_cube_z_inverted", text="Z Mirror (Top)")
 
-# --- Классы для регистрации ---
+
 classes = (
     MESH_OT_half_cube_x,
     MESH_OT_half_cube_y,
@@ -216,7 +222,7 @@ classes = (
     VIEW3D_PT_half_cubes_tools,
 )
 
-# --- Функции регистрации ---
+
 def add_half_cubes_menu_early(self, context):
     self.layout.separator()
     self.layout.menu("VIEW3D_MT_add_half_cubes_menu", text="Half Cubes", icon='MESH_CUBE')
@@ -233,7 +239,7 @@ def unregister():
     
     bpy.types.VIEW3D_MT_add.remove(add_half_cubes_menu_early)
 
-# Это обязательно для распознавания аддона
+
 def register_addon():
     register()
 
@@ -241,4 +247,5 @@ def unregister_addon():
     unregister()
 
 if __name__ == "__main__":
+
     register()
