@@ -12,7 +12,7 @@ Best thing for modellers who need to use such kinds of cubes.
 
 ## Installation
 
-1. Download the latest release ZIP file: https://github.com/Al-Essander/Blender_Mirror_Half-Cubes/releases/tag/
+1. Download the latest release [ZIP file](https://github.com/Al-Essander/Blender_Mirror_Half-Cubes/releases)
 2. In Blender, go to `Edit > Preferences > Add-ons`
 3. Click `Install...` and select the ZIP file
 4. Enable the addon by checking the checkbox
@@ -34,4 +34,5 @@ Best thing for modellers who need to use such kinds of cubes.
 - **Standard**: Polygons on left/front/bottom, mirror on right/back/top
 
 - **Inverted**: Polygons on right/back/top, mirror on left/front/bottom
+
 
